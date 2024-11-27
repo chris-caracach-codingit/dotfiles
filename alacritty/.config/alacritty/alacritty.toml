@@ -19,8 +19,8 @@ white = "0x5c6370"
 yellow = "0xe5c07b"
 
 [colors.primary]
-background = "0x282c34"
-foreground = "0xabb2bf"
+background = "#17153B"
+foreground = "#BFAFD1"
 
 [colors.selection]
 background = "0x3e4452"
@@ -39,7 +39,7 @@ y = 0
 
 [font.normal]
 family = "Hack Nerd Font"
-style = "Regular"
+style = "Bold"
 
 [scrolling]
 history = 15000
@@ -56,3 +56,6 @@ y = 10
 action = "SpawnNewInstance"
 key = "N"
 mods = "Control"
+
+[terminal]
+shell = "/usr/bin/fish"
