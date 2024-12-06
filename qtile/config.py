@@ -128,9 +128,10 @@ color_light = "#E49BFF"
 color_lighter = "#EBD3F8"
 
 layouts = [
-    # layout.Columns(border_focus_stack=[color_dark, color_dark], border_width=4),
+    layout.Columns(border_focus_stack=[color_dark, color_dark], border_width=4),
     layout.MonadTall(margin=4, border_focus=color_midlight, border_normal=color_dark),
     layout.Max(),
+    layout.Floating(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
@@ -144,8 +145,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    # font="Hack Nerd Font",
-    font="sans",
+    font="Hack Nerd Font Mono",
     fontsize=12,
     padding=2,
 )
@@ -157,20 +157,24 @@ screens = [
             [
                 widget.GroupBox(highlight_method="line", active=color_light, block_highlight_text_color=color_light, this_current_screen_border=color_light, inactive=color_dark),
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
+                widget.Systray(),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.WindowName(foreground=color_light),
                 widget.TextBox("TEMP", foreground=color_light),
                 widget.ThermalSensor(foreground=color_light),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("NET", foreground=color_light),
-                widget.NetGraph(border_color=color_midlight, fill_color=color_midlight, graph_color=color_light),
-                # widget.Sep(foreground=color_light, linewidth=2),
+                widget.Net(foreground=color_light, format='{down:.0f}{down_suffix:<2} ↓↑ {up:.0f}{up_suffix:<2}', width=90),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("RAM", foreground=color_light),
-                widget.MemoryGraph(border_color=color_midlight, fill_color=color_midlight, graph_color=color_light),
-                # widget.Sep(foreground=color_light, linewidth=2),
+                widget.Memory(measure_mem="G", foreground=color_light),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("CPU", foreground=color_light),
-                widget.CPUGraph(border_color=color_midlight, fill_color=color_midlight, graph_color=color_light),
-                # widget.Sep(foreground=color_light, linewidth=2),
+                widget.CPU(foreground=color_light, format="{load_percent}%", width=40),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
+                widget.TextBox("VOL", foreground=color_light),
                 widget.Volume(foreground=color_light),
-                widget.Systray(),
+                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.Clock(format="%Y-%m-%d", foreground=color_light),
                 widget.Clock(format="%I:%M %p", foreground=color_light),
             ],
