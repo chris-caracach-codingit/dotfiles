@@ -1,3 +1,4 @@
+# This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
 
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -9,11 +10,11 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
+    # Window management keybindings
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
@@ -23,15 +24,7 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "f",
@@ -39,9 +32,15 @@ keys = [
         desc="Toggle fullscreen on the focused window",
     ),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+
+    # Launchers / Killers
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "space", lazy.spawn("rofi -show drun"), desc="Launch rofi"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+
+    # General
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "Space", lazy.spawn("rofi -show drun"), desc="Launch rofi"),
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -58,7 +57,10 @@ for vt in range(1, 8):
     )
 
 
+# PERSONAL
 groups = [Group(i) for i in "1234"]
+# WORK
+groups = [Group(i) for i in "123456"]
 
 for i in groups:
     keys.extend(
@@ -83,14 +85,15 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
-# This are the colors I use for my work enviroment, they will be commented.
-# Active them if u need to
+
+# WORK
 # color_dark = "#04364A"
 # color_middark = "#176B87"
 # color_midlight = "#64CCC5"
 # color_light = "#DAFFFB"
 # color_lighter = "#FFFFFF"
 
+# PERSONAL
 color_dark = "#2E073F"
 color_middark = "#7A1CAC"
 color_midlight = "#AD49E1"
@@ -132,9 +135,11 @@ screens = [
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("VOL", foreground=color_light),
                 widget.Volume(foreground=color_light),
+                # --- LAPTOP --- #
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("BAT", foreground=color_light),
                 widget.Battery(charge_char="*", format="{char} {percent:2.0%}"),
+                # -------------- #
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.Clock(format="%Y-%m-%d", foreground=color_light),
                 widget.Clock(format="%I:%M %p", foreground=color_light),
