@@ -57,10 +57,7 @@ for vt in range(1, 8):
     )
 
 
-# PERSONAL
-groups = [Group(i) for i in "1234"]
-# WORK
-groups = [Group(i) for i in "123456"]
+# groups = [Group(i) for i in "123456"]
 
 for i in groups:
     keys.extend(
