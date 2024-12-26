@@ -1,4 +1,6 @@
 # This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
+#
+# Version 1.0.0 - 26/12/24
 
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -109,6 +111,10 @@ color_midlight = "#AD49E1"
 color_light = "#E49BFF"
 color_lighter = "#EBD3F8"
 
+
+# GENERAL COLORS
+color_error = "#C62300"
+
 layouts = [
     layout.Columns(border_focus_stack=[color_dark, color_dark], border_width=4),
     layout.Max(),
@@ -132,12 +138,11 @@ screens = [
                     this_current_screen_border=color_light,
                     inactive=color_dark,
                 ),
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.Systray(),
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.WindowName(foreground=color_light),
                 widget.TextBox("TEMP", foreground=color_light),
-                widget.ThermalSensor(foreground=color_light),
+                widget.ThermalSensor(foreground=color_light, threshold=80, foreground_alert=color_error), # Laptop usually have temperature problems
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("NET", foreground=color_light),
                 widget.Net(
@@ -153,14 +158,14 @@ screens = [
                 widget.CPU(foreground=color_light, format="{load_percent}%", width=40),
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("VOL", foreground=color_light),
-                widget.Volume(foreground=color_light),
+                widget.Volume(foreground=color_light, volume_app="pactl"), 
                 # --- LAPTOP --- #
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.TextBox("BAT", foreground=color_light),
-                widget.Battery(charge_char="*", format="{char} {percent:2.0%}"),
+                widget.Battery(charge_char="*", format="{char} {percent:2.0%}", foreground=color_light, low_foreground=color_error, discharge_char=""),
                 # -------------- #
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.Clock(format="%Y-%m-%d", foreground=color_light),
+                widget.Clock(format="%d-%m", foreground=color_light),
                 widget.Clock(format="%I:%M %p", foreground=color_light),
             ],
             24,
