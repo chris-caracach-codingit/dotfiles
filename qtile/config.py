@@ -1,6 +1,6 @@
 # This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
 #
-# Version 1.0.0 - 26/12/24
+# Version 1.1.0 - 17/2/25
 
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -160,9 +160,9 @@ screens = [
                 widget.TextBox("VOL", foreground=color_light),
                 widget.Volume(foreground=color_light, volume_app="pactl"), 
                 # --- LAPTOP --- #
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.TextBox("BAT", foreground=color_light),
-                widget.Battery(charge_char="*", format="{char} {percent:2.0%}", foreground=color_light, low_foreground=color_error, discharge_char=""),
+                # widget.Sep(foreground=color_light, linewidth=2, padding=20),
+                # widget.TextBox("BAT", foreground=color_light),
+                # widget.Battery(charge_char="*", format="{char} {percent:2.0%}", foreground=color_light, low_foreground=color_error, discharge_char=""),
                 # -------------- #
                 widget.Sep(foreground=color_light, linewidth=2, padding=20),
                 widget.Clock(format="%d-%m", foreground=color_light),
