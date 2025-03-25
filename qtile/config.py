@@ -6,7 +6,8 @@ from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-import os
+import subprocess
+
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -236,11 +237,12 @@ wl_xcursor_size = 24
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 
-
 autostart = [
     "nitrogen --restore &",
     "picom &",
+    "nm-applet &",
+    "~/.config/qtile/check_monitors.sh"
 ]
 
-for x in autostart:
-    os.system(x)
+for cmd in autostart:
+    subprocess.Popen(cmd, shell=True)
