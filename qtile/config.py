@@ -241,7 +241,7 @@ autostart = [
     "nitrogen --restore &",
     "picom &",
     "nm-applet &",
-    "~/.config/qtile/check_monitors.sh"
+    "~/.config/qtile/check_monitors.sh" # This checks the HDMI screen, comment if you're not using it
 ]
 
 for cmd in autostart:
