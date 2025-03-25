@@ -1,6 +1,7 @@
 # This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
 #
-# Version 1.1.0 - 17/2/25
+# Version 1.2.0 - 17/2/25
+# Version Note: Added HDMI support
 
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
