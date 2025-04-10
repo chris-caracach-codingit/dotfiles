@@ -1,7 +1,3 @@
-# This is my rofi config.
-#
-# Version 1.1.0 - 17/2/25
-
 configuration {
 	display-drun: "Open";
 	drun-display-format: "{icon} {name}";
@@ -12,24 +8,48 @@ configuration {
 @theme "/usr/share/rofi/themes/DarkBlue.rasi"
 
 * {
-	bg: #2E073F;
-	bg-alt: #EBD3F8;
-	
-	fg: #E49BFF;
-	fg-alt: #7A1CAC;
-	
-	background-color: @bg;
+	bg: #000;
+	bg-alt: #28965A;
+	fg: #6BFFB8;
+	fg-alt: #7CFEF0;
 	
 	border: 0;
 	margin: 0;
 	padding: 0;
 	spacing: 0;
+
+    selected-normal-foreground: @bg;
+    normal-foreground: @fg;
+    alternate-normal-background: @bg;
+    selected-urgent-foreground: @fg;
+    active-foreground: @fg;
+    lightbg: @bg;
+    selected-active-foreground: @fg;
+    alternate-active-background: @bg;
+    bordercolor: @fg;
+    alternate-normal-foreground: @fg;
+    normal-background: @bg;
+    lightfg: @fg;
+    selected-normal-background: @fg;
+    border-color: @fg;
+    separatorcolor: @fg;
+    urgent-background: @bg;
+    selected-urgent-background: @bg;
+    alternate-urgent-foreground: @fg;
+    background-color: @bg;
+    alternate-active-foreground: @fg;
+    active-background: @bg;
+    selected-active-background: @bg;
 }
+
 
 window {
 	width: 40%;
 }
-
+mainbox {
+    border:  0;
+    padding: 0;
+}
 element {
 	padding: 12;
 	text-color: @fg;
@@ -52,10 +72,6 @@ listview {
 	background-color: @bg;
 	columns: 1;
 	lines: 8;
-}
-
-mainbox {
-	background-color: @bg;
 }
 
 
