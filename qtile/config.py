@@ -1,18 +1,22 @@
 # This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
 #
-# Version 1.2.0 - 17/2/25
-# Version Note: Added HDMI support
+# Version 1.2.0 - 26/12/24
 
+#|--- IMPORTS ---|#
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from keyboard_utils import get_layout, toggle_layout
+from colors import *
+from widgets import init_widgets_list
 import subprocess
-
+import os
 
 mod = "mod4"
 terminal = guess_terminal()
 
+#|--- KEYS ---|#
 keys = [
     # Window management keybindings
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -50,72 +54,60 @@ keys = [
         lazy.window.toggle_floating(),
         desc="Toggle floating on the focused window",
     ),
+    
+    # Aumentar brillo
+    Key([mod], "k", lazy.spawn("brightnessctl set +10%"), desc="Increase brightness"),
+    
+    # Disminuir brillo
+    Key([mod], "l", lazy.spawn("brightnessctl set 10%-"), desc="Decrease brightness"),
+    
     # Launchers / Killers
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "space", lazy.spawn("rofi -show drun"), desc="Launch rofi"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "p", lazy.spawn("flameshot gui"), desc="Launch Flameshot"),
     # General
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 ]
 
-# Add key bindings to switch VTs in Wayland.
-# We can't check qtile.core.name in default config as it is loaded before qtile is started
-# We therefore defer the check until the key binding is run by using .when(func=...)
-for vt in range(1, 8):
-    keys.append(
-        Key(
-            ["control", "mod1"],
-            f"f{vt}",
-            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
-            desc=f"Switch to VT{vt}",
-        )
-    )
+groups = [Group(i) for i in "123456789"]
 
+#|--- SOME GROUP SHORTCUTS ---|
+keys.append(Key([mod], "c", lazy.group["1"].toscreen()))
+keys.append(Key([mod], "z", lazy.group["2"].toscreen()))
+keys.append(Key([mod], "a", lazy.group["4"].toscreen()))
+keys.append(Key([mod], "d", lazy.group["6"].toscreen()))
+keys.append(Key([mod], "x", lazy.group["7"].toscreen()))
+keys.append(Key([mod], "s", lazy.group["8"].toscreen()))
+keys.append(Key([mod], "m", lazy.group["9"].toscreen()))
 
-groups = [Group(i) for i in "123456"]
-
+#|--- SWITCH TO ANOTHER GROUP ---|
 for i in groups:
     keys.extend(
         [
-            # mod + group number = switch to group
             Key(
                 [mod],
                 i.name,
                 lazy.group[i.name].toscreen(),
                 desc=f"Switch to group {i.name}",
             ),
-            # mod + shift + group number = switch to & move focused window to group
             Key(
                 [mod, "shift"],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
                 desc=f"Switch to & move focused window to group {i.name}",
             ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod + shift + group number = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
         ]
     )
 
-# WORK
-# color_dark = "#04364A"
-# color_middark = "#176B87"
-# color_midlight = "#64CCC5"
-# color_light = "#DAFFFB"
-# color_lighter = "#FFFFFF"
-
-# PERSONAL
-color_dark = "#2E073F"
-color_middark = "#7A1CAC"
-color_midlight = "#AD49E1"
-color_light = "#E49BFF"
-color_lighter = "#EBD3F8"
-
-
-# GENERAL COLORS
-color_error = "#C62300"
+#|--- KEYBOARD WIDGET ---|
+keyboard_widget = widget.TextBox(
+    text=f"{get_layout()}",  
+    mouse_callbacks={"Button1": lazy.function(toggle_layout)},
+    foreground=color_light,
+    padding=5
+)
 
 layouts = [
     layout.Columns(border_focus_stack=[color_dark, color_dark], border_width=4),
@@ -124,8 +116,8 @@ layouts = [
 
 widget_defaults = dict(
     font="Hack Nerd Font Mono",
-    fontsize=12,
-    padding=2,
+    fontsize=14,
+    padding=4,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -133,51 +125,12 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(
-                    highlight_method="line",
-                    active=color_light,
-                    block_highlight_text_color=color_light,
-                    this_current_screen_border=color_light,
-                    inactive=color_dark,
-                ),
-                widget.Systray(),
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.WindowName(foreground=color_light),
-                widget.TextBox("TEMP", foreground=color_light),
-                widget.ThermalSensor(foreground=color_light, threshold=80, foreground_alert=color_error), # Laptop usually have temperature problems
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.TextBox("NET", foreground=color_light),
-                widget.Net(
-                    foreground=color_light,
-                    format="{down:.0f}{down_suffix:<2} ↓↑ {up:.0f}{up_suffix:<2}",
-                    width=90,
-                ),
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.TextBox("RAM", foreground=color_light),
-                widget.Memory(measure_mem="G", foreground=color_light),
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.TextBox("CPU", foreground=color_light),
-                widget.CPU(foreground=color_light, format="{load_percent}%", width=40),
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.TextBox("VOL", foreground=color_light),
-                widget.Volume(foreground=color_light, volume_app="pactl"), 
-                # --- LAPTOP --- #
-                # widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                # widget.TextBox("BAT", foreground=color_light),
-                # widget.Battery(charge_char="*", format="{char} {percent:2.0%}", foreground=color_light, low_foreground=color_error, discharge_char=""),
-                # -------------- #
-                widget.Sep(foreground=color_light, linewidth=2, padding=20),
-                widget.Clock(format="%d-%m", foreground=color_light),
-                widget.Clock(format="%I:%M %p", foreground=color_light),
+                *init_widgets_list(keyboard_widget)
             ],
-            24,
-            # border_width=[2, 2, 2, 2],  # Draw top and bottom borders
-            # border_color=[color_dark, color_dark, color_dark, color_dark]  # Borders are magenta
+            30,
+            border_width=[0, 0, 1, 0],  
+            border_color=[color_dark, color_dark, color_light, color_dark]  
         ),
-        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
-        # By default we handle these events delayed to already improve performance, however your system might still be struggling
-        # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
-        # x11_drag_polling_rate = 60,
     ),
 ]
 
@@ -239,7 +192,7 @@ wl_xcursor_size = 24
 wmname = "LG3D"
 
 autostart = [
-    "nitrogen --restore &",
+    # "nitrogen --restore &",
     "picom &",
     "nm-applet &",
     "~/.config/qtile/check_monitors.sh" # This checks the HDMI screen, comment if you're not using it
