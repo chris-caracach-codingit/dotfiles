@@ -1,13 +1,25 @@
 # This is my qtile config. It can be used either desktop or laptop. Just check the commented lines.
 #
-# Version 1.2.0 - 26/12/24
+# Version 2.0.0 - 1/4/25
+
+
+#|--- TODO ---|#
+# - Find a way to define a name for each group and display the group name in top bar, instead of 123456789
+# - Move keys to a separated file
+# - Move layouts to a separated file
+# - Add a way to execute this script (record screen)
+# ffmpeg -f pulse -i alsa_input.pci-0000_00_1f.3.analog-stereo -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0 ~/Videos/record.mkv
+
+
+
+
+
 
 #|--- IMPORTS ---|#
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from keyboard_utils import get_layout, toggle_layout
 from colors import *
 from widgets import init_widgets_list
 import subprocess
@@ -55,10 +67,8 @@ keys = [
         desc="Toggle floating on the focused window",
     ),
     
-    # Aumentar brillo
+    # Brightness
     Key([mod], "k", lazy.spawn("brightnessctl set +10%"), desc="Increase brightness"),
-    
-    # Disminuir brillo
     Key([mod], "l", lazy.spawn("brightnessctl set 10%-"), desc="Decrease brightness"),
     
     # Launchers / Killers
@@ -66,6 +76,7 @@ keys = [
     Key([mod], "space", lazy.spawn("rofi -show drun"), desc="Launch rofi"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "p", lazy.spawn("flameshot gui"), desc="Launch Flameshot"),
+
     # General
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -101,16 +112,14 @@ for i in groups:
         ]
     )
 
-#|--- KEYBOARD WIDGET ---|
-keyboard_widget = widget.TextBox(
-    text=f"{get_layout()}",  
-    mouse_callbacks={"Button1": lazy.function(toggle_layout)},
-    foreground=color_light,
-    padding=5
-)
-
+#|--- LAYOUTS ---|
 layouts = [
-    layout.Columns(border_focus_stack=[color_dark, color_dark], border_width=4),
+    layout.Columns(
+        border_focus_stack=[color_dark, color_dark], 
+        border_width=3,
+        border_normal=color_dark,
+        border_focus=color_light
+        ),
     layout.Max(),
 ]
 
@@ -119,17 +128,18 @@ widget_defaults = dict(
     fontsize=14,
     padding=4,
 )
+
 extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                *init_widgets_list(keyboard_widget)
+                *init_widgets_list()
             ],
             30,
-            border_width=[0, 0, 1, 0],  
-            border_color=[color_dark, color_dark, color_light, color_dark]  
+            border_width=[2, 2, 2, 2],
+            border_color=[color_light, color_light, color_light, color_light]  
         ),
     ),
 ]
@@ -169,33 +179,17 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
 auto_minimize = True
-
-# When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
-
-# xcursor theme (string or None) and size (integer) for Wayland backend
 wl_xcursor_theme = None
 wl_xcursor_size = 24
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
 
 autostart = [
-    # "nitrogen --restore &",
     "picom &",
     "nm-applet &",
     "~/.config/qtile/check_monitors.sh" # This checks the HDMI screen, comment if you're not using it
+    "~/.config/qtile/set_random_wallpaper.sh" # This sets a random wallpaper
 ]
 
 for cmd in autostart:

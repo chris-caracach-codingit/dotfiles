@@ -1,5 +1,10 @@
-from libqtile import widget
+from libqtile import widget, qtile
+from libqtile.lazy import lazy
 from colors import color_light, color_dark, color_error
+from keyboard_utils import get_layout, toggle_layout
+from fan_status import FanStatus
+
+import os
 
 # Current group widget
 current_group = widget.AGroupBox(
@@ -37,6 +42,9 @@ net_icon = widget.TextBox(
     "\ueb01",
     foreground=color_light,
     fontsize=26,
+    mouse_callbacks={
+    	"Button1": lambda: qtile.cmd_spawn("alacritty -e fish -c 'htop'")
+    }
 )
 net_widget = widget.Net(
     foreground=color_light,
@@ -48,7 +56,10 @@ net_widget = widget.Net(
 ram_icon = widget.TextBox(
     "\uefc5", 
     foreground=color_light, 
-    fontsize=26, 
+    fontsize=26,
+    mouse_callbacks={
+    	"Button1": lambda: qtile.cmd_spawn("alacritty -e fish -c 'htop'")
+    }
 )
 ram_widget = widget.Memory(measure_mem="G", foreground=color_light)
 
@@ -77,12 +88,38 @@ time_widget = widget.Clock(format="%I:%M %p", foreground=color_light)
 
 # Keyboard widget
 keyboard_icon = widget.TextBox("\uf11c", foreground=color_light, fontsize=26)
+keyboard_widget = widget.GenPollText(
+    update_interval=1, 
+    func=lambda: get_layout(),
+    mouse_callbacks={"Button1": lazy.function(toggle_layout)},
+    foreground=color_light,
+    padding=5
+)
 
-def init_widgets_list(keyboard_widget):
+# Fan widget
+fan_icon = widget.TextBox("\uefa7", foreground=color_light, fontsize=26)
+fan_widget = FanStatus(foreground=color_light)
+
+# Screen Recorder Widget
+# screen_recorder_icon = widget.TextBox("Record", foreground=color_light, fontsize=22) # Video camera icon
+# screen_recorder_widget = widget.GenPollText(
+#     update_interval=1,
+#     func=lambda: get_recording_status_text(),
+#     mouse_callbacks={"Button1": lazy.function(lambda q: toggle_recording())},
+#     foreground=color_light,
+#     padding=5
+# )
+
+
+def init_widgets_list():
     """Initialize and return the widgets list with all widgets"""
     widgets = [
+        group_box,
         spacer,
         systray,
+        create_separator(),
+        fan_icon,
+        fan_widget,
         create_separator(),
         temp_icon,
         temp_sensor,
@@ -107,6 +144,6 @@ def init_widgets_list(keyboard_widget):
         time_widget,
         create_separator(),
         keyboard_icon,
-        keyboard_widget,
+        keyboard_widget
     ]
     return widgets

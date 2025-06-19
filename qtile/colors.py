@@ -1,9 +1,10 @@
 # Work theme colors
-color_dark = "#2A6041"
-color_middark = "#28965A"
-color_midlight = "#2CEAA3"
-color_light = "#6BFFB8"
-color_lighter = "#7CFEF0"
+# Palette based on color_light (#0DCDCD)
+color_dark = "#085e5e"      # much darker
+color_middark = "#099e9e"   # slightly darker
+color_midlight = "#0ba5a5"   # a little darker than light
+color_light = "#0DCDCD"     # base
+color_lighter = "#b6fafa"   # much lighter
 
 # color_dark = "#04364A"
 # color_middark = "#176B87"
