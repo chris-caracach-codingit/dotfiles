@@ -1,24 +1,21 @@
 from libqtile import widget, qtile
 from libqtile.lazy import lazy
-from colors import color_light, color_dark, color_error
+from colors import color_light, color_dark, color_error, color_lighter
 from keyboard_utils import get_layout, toggle_layout
 from fan_status import FanStatus
+from screen_recorder import get_recording_status_text, toggle_recording
 
 import os
 
-# Current group widget
-current_group = widget.AGroupBox(
-    foreground=color_light,
-    padding=5
-)
-
 # Groupbox for workspace management
 group_box = widget.GroupBox(
-    highlight_method="line",
-    active=color_light,
-    block_highlight_text_color=color_light,
-    this_current_screen_border=color_light,
-    inactive=color_dark,
+    fontsize=24,
+    highlight_method="block",
+    this_current_screen_border="#000", 
+    block_highlight_text_color=color_lighter,  
+    inactive=color_dark,                    
+    active=color_light,                     
+    disable_drag=True
 )
 
 # Spacer and system tray
@@ -42,9 +39,7 @@ net_icon = widget.TextBox(
     "\ueb01",
     foreground=color_light,
     fontsize=26,
-    mouse_callbacks={
-    	"Button1": lambda: qtile.cmd_spawn("alacritty -e fish -c 'htop'")
-    }
+    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("alacritty -e fish -c 'nmtui'")},
 )
 net_widget = widget.Net(
     foreground=color_light,
@@ -68,7 +63,7 @@ cpu_icon = widget.TextBox("\ue28c", foreground=color_light, fontsize=26)
 cpu_widget = widget.CPU(foreground=color_light, format="{load_percent}%", width=45)
 
 # Volume widgets
-volume_icon = widget.TextBox("\uf028", foreground=color_light, fontsize=26)
+volume_icon = widget.TextBox("\uf028", foreground=color_light, fontsize=26, mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("pavucontrol")})
 volume_widget = widget.PulseVolume(foreground=color_light)
 
 # Battery widgets
@@ -101,14 +96,14 @@ fan_icon = widget.TextBox("\uefa7", foreground=color_light, fontsize=26)
 fan_widget = FanStatus(foreground=color_light)
 
 # Screen Recorder Widget
-# screen_recorder_icon = widget.TextBox("Record", foreground=color_light, fontsize=22) # Video camera icon
-# screen_recorder_widget = widget.GenPollText(
-#     update_interval=1,
-#     func=lambda: get_recording_status_text(),
-#     mouse_callbacks={"Button1": lazy.function(lambda q: toggle_recording())},
-#     foreground=color_light,
-#     padding=5
-# )
+screen_recorder_icon = widget.TextBox("\uf03d", foreground=color_light, fontsize=26) # Changed text to REC and adjusted fontsize
+screen_recorder_widget = widget.GenPollText(
+    update_interval=1,
+    func=lambda: get_recording_status_text(),
+    mouse_callbacks={"Button1": lazy.function(lambda q: toggle_recording())},
+    foreground=color_light,
+    padding=5
+)
 
 
 def init_widgets_list():
@@ -144,6 +139,9 @@ def init_widgets_list():
         time_widget,
         create_separator(),
         keyboard_icon,
-        keyboard_widget
+        keyboard_widget,
+        create_separator(),
+        screen_recorder_icon,
+        screen_recorder_widget
     ]
     return widgets
