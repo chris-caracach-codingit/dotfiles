@@ -44,7 +44,11 @@ configuration {
 
 
 window {
-	width: 40%;
+	location: northwest;
+	anchor:   northwest;
+	x-offset: 12px;
+	y-offset: 50px;
+	width:    40%;
 }
 mainbox {
     border:  0;

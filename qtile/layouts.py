@@ -26,6 +26,7 @@ def init_layouts(color_dark, color_light):
             Match(wm_class="ssh-askpass"),  # ssh-askpass
             Match(title="branchdialog"),  # gitk
             Match(title="pinentry"),  # GPG key password entry
+            Match(wm_class="zoom"),  # float all Zoom windows (annotation toolbar, popups, meeting)
         ],
     )
     return layouts, floating_layout

@@ -1,4 +1,5 @@
 import os
+
 from libqtile.config import Key
 from libqtile.lazy import lazy
 
@@ -54,9 +55,24 @@ def init_keys(mod, terminal, groups):
         ),
         # Launchers / Killers
         Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-        Key([mod], "space", lazy.spawn("bash /home/chris/.config/qtile/scripts/appmenu.sh"), desc="Launch rofi"),
-        Key([mod], "t", lazy.spawn("bash /home/chris/.config/qtile/scripts/tray.sh"), desc="Launch tray menu"),
-        Key([mod], "v", lazy.spawn("bash /home/chris/.config/qtile/scripts/mic.sh"), desc="Mic control"),
+        Key(
+            [mod],
+            "space",
+            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/appmenu.sh"),
+            desc="Launch rofi",
+        ),
+        Key(
+            [mod],
+            "v",
+            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/mic.sh"),
+            desc="Mic control",
+        ),
+        Key(
+            [mod],
+            "i",
+            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/ai.sh"),
+            desc="AI prompt",
+        ),
         Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
         Key([mod], "p", lazy.spawn("flameshot gui"), desc="Launch Flameshot"),
         Key(

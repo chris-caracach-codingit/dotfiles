@@ -32,7 +32,7 @@ for i in "${!ports[@]}"; do
 done
 
 ICON=$''  # nf-fa-microphone
-choice=$(printf '%s\n' "${menu[@]}" | rofi -dmenu -i -p "Mic" -mesg "$ICON" -theme /home/chris/.config/rofi/menu.rasi)
+choice=$(printf '%s\n' "${menu[@]}" | rofi -dmenu -i -p "Mic" -mesg "$ICON" -theme /home/chris-cit/.config/rofi/menu.rasi)
 [ -z "$choice" ] && exit 0
 
 if [ "$choice" = "$mute_label" ]; then

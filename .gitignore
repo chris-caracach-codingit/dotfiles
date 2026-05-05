@@ -10,3 +10,7 @@ debug
 foo.*
 *.log
 data
+
+# Python
+__pycache__/
+*.py[cod]

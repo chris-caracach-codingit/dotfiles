@@ -103,12 +103,12 @@ def get_volume_text():
 
 def _vol_up(_):
     subprocess.run(["pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%"])
-    volume_widget.tick()
+    volume_widget.force_update()
 
 
 def _vol_down(_):
     subprocess.run(["pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%"])
-    volume_widget.tick()
+    volume_widget.force_update()
 
 
 _volume_callbacks = {
@@ -188,6 +188,14 @@ screen_recorder_widget = widget.GenPollText(
     padding=5,
 )
 
+# System tray (SNI / StatusNotifier) — embeds real tray icons from
+# apps like Slack, Discord, Zoom, Drata-agent, etc. Left/right-click
+# menus from the apps themselves work directly here.
+tray_widget = widget.StatusNotifier(
+    icon_size=20,
+    padding=6,
+)
+
 # Spacer widget
 spacer = widget.Spacer()
 
@@ -204,6 +212,8 @@ def init_widgets_list():
     widgets = [
         group_box,
         spacer,
+        tray_widget,
+        separator,
         temp_icon,
         temp_sensor,
         separator,

@@ -19,9 +19,9 @@ configuration {
 }
 
 window {
-    location:         northeast;
-    anchor:           northeast;
-    x-offset:         -12px;
+    location:         northwest;
+    anchor:           northwest;
+    x-offset:         12px;
     y-offset:         50px;
     width:            280px;
     background-color: @bg;
@@ -43,7 +43,7 @@ textbox {
     text-color:       @accent;
     horizontal-align: 0.5;
     vertical-align:   0.5;
-    font:             "Hack Nerd Font Mono 36";
+    font:             "Hack Nerd Font Mono 44";
 }
 
 inputbar {
