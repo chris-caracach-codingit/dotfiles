@@ -58,19 +58,19 @@ def init_keys(mod, terminal, groups):
         Key(
             [mod],
             "space",
-            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/appmenu.sh"),
+            lazy.spawn(f"bash {os.path.expanduser('~/.config/qtile/menus/appmenu.sh')}"),
             desc="Launch rofi",
         ),
         Key(
             [mod],
             "v",
-            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/mic.sh"),
+            lazy.spawn(f"bash {os.path.expanduser('~/.config/qtile/menus/mic.sh')}"),
             desc="Mic control",
         ),
         Key(
             [mod],
             "i",
-            lazy.spawn("bash /home/chris-cit/.config/qtile/menus/ai.sh"),
+            lazy.spawn(f"bash {os.path.expanduser('~/.config/qtile/menus/ai.sh')}"),
             desc="AI prompt",
         ),
         Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),

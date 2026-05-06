@@ -5,7 +5,7 @@ export DISPLAY="${DISPLAY:-:0}"
 # glyph (nf-linux-archlinux, U+F303) shows in drun mode. -mesg doesn't
 # render reliably with -show drun, so we bake the icon into the theme.
 rofi -show drun \
-    -theme /home/chris-cit/.config/rofi/menu.rasi \
+    -theme "$HOME/.config/rofi/menu.rasi" \
     -theme-str 'mainbox {
                   children: [textbox-arch, inputbar, listview];
                   spacing: 10px;

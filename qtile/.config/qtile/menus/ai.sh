@@ -5,7 +5,7 @@ PROMPT=$(rofi -dmenu \
   -p "" \
   -lines 0 \
   -no-fixed-num-lines \
-  -theme /home/chris-cit/.config/rofi/menu.rasi \
+  -theme "$HOME/.config/rofi/menu.rasi" \
   -theme-str 'window { width: 700px; }
               mainbox { children: [inputbar]; }
               entry { placeholder: "Ask AI..."; }
