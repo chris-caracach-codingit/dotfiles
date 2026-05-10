@@ -1,4 +1,6 @@
-# dotfiles
+<img width="300" height="220" alt="WhatsApp Image 2026-05-10 at 7 43 59 PM" src="https://github.com/user-attachments/assets/759fdb64-7360-4a67-aae7-4b95dd7e4d04" />
+
+# Dotfiles
 
 My personal Linux desktop configuration. Everything here is what I actually use day to day — nothing included just for show.
 
