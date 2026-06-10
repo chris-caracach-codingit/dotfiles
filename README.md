@@ -15,6 +15,9 @@ Minimal TOML config. Nord color scheme, Hack Nerd Font at 10pt.
 **Shell — Fish**
 Managed with Fisher. NVM integration for Node version switching, pnpm and bun on PATH.
 
+**Multiplexer — Tmux**
+Alt+Space prefix, vim-style pane resizing, status bar on top with CPU/memory monitor. Plugins managed with tpm.
+
 **Editor — Neovim**
 NvChad as the base with custom plugin specs layered on top. LSP configured for Python and TypeScript via Mason.
 
@@ -35,6 +38,12 @@ No install script. Clone the repo and symlink (or copy) the directories you want
 git clone https://github.com/Chriscaracach/dotfiles.git
 ln -s ~/path/to/dotfiles/qtile ~/.config/qtile
 # repeat for nvim, fish, alacritty, etc.
+```
+
+Tmux is the exception — its config lives at `~/.tmux.conf`:
+
+```bash
+ln -s ~/path/to/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ```
 
 Fonts required: **Hack Nerd Font** (for Qtile widgets, Alacritty, and Neovim icons).

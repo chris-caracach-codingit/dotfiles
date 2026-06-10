@@ -65,9 +65,9 @@ sudo pacman -S ttf-hack-nerd
 ```
 
 ### Notes
-- `mod+space` → app launcher (drun)
-- `mod+t` → tray menu (`~/.config/qtile/scripts/tray.sh`)
-- `mod+v` → mic control (`~/.config/qtile/scripts/mic.sh`)
+- `mod+space` → app launcher (`~/.config/qtile/menus/appmenu.sh`)
+- `mod+v` → mic control (`~/.config/qtile/menus/mic.sh`)
+- `mod+i` → AI prompt (`~/.config/qtile/menus/ai.sh`)
 - All menus use `~/.config/rofi/menu.rasi`
 
 ---
@@ -127,7 +127,30 @@ curl -fsSL https://bun.sh/install | bash
 
 ---
 
-## 8. Neovim (NvChad)
+## 8. Tmux
+
+### Packages
+```bash
+sudo pacman -S tmux
+```
+
+### Config location
+Tmux doesn't read from `~/.config/` — copy or symlink the config to the home directory:
+
+```bash
+ln -s ~/path/to/dotfiles/tmux/tmux.conf ~/.tmux.conf
+```
+
+### Plugin manager (tpm)
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Start tmux and press `prefix + I` (Alt+Space, then Shift+i) to install plugins.
+
+---
+
+## 9. Neovim (NvChad)
 
 ### Packages
 ```bash
@@ -145,7 +168,7 @@ nvim   # triggers lazy.nvim bootstrap on first launch
 
 ---
 
-## 9. PCManFM
+## 10. PCManFM
 
 ```bash
 sudo pacman -S pcmanfm
@@ -155,7 +178,7 @@ No extra config needed beyond what's in `~/.config/pcmanfm/`.
 
 ---
 
-## 10. Picom
+## 11. Picom
 
 ```bash
 sudo pacman -S picom
@@ -168,7 +191,7 @@ Config uses:
 
 ---
 
-## 11. Fonts summary
+## 12. Fonts summary
 
 All at once:
 
@@ -182,7 +205,7 @@ sudo pacman -S \
 
 ---
 
-## 12. Display manager (optional)
+## 13. Display manager (optional)
 
 The config uses `ly`:
 
@@ -208,7 +231,7 @@ sudo pacman -S \
   network-manager-applet pcmanfm arandr lxappearance \
   flameshot brightnessctl ffmpeg \
   pipewire-pulse gnome-disk-utility xorg-setxkbmap \
-  fish neovim git gcc make \
+  fish tmux neovim git gcc make \
   ttf-hack-nerd noto-fonts noto-fonts-emoji noto-fonts-extra \
   ly
 
@@ -224,6 +247,7 @@ nvm install v22.22.2
 
 1. `chsh -s /usr/bin/fish`
 2. Run `nvim` once to trigger plugin sync
-3. Run `nitrogen --restore` or pick a wallpaper
-4. `sudo systemctl enable --now NetworkManager`
-5. Reboot or `startx`
+3. Symlink `tmux/tmux.conf` to `~/.tmux.conf`, clone tpm, then `prefix + I` inside tmux
+4. Run `nitrogen --restore` or pick a wallpaper
+5. `sudo systemctl enable --now NetworkManager`
+6. Reboot or `startx`
