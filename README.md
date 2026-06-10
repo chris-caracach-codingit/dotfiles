@@ -30,6 +30,9 @@ Nord-themed, keyboard-driven. Replaces dmenu entirely.
 **Notifications — Dunst**
 Positioned top-right, themed to match the active palette.
 
+**Theme switcher**
+One rofi menu (`mod+u`) re-themes the whole desktop — Qtile, Alacritty, Rofi, Dunst, fish, and tmux — by flipping a single symlink (`~/.config/themes/current`). Every app imports its colors from that path natively, so there's no config rewriting and nothing to drift. Ships with Nord, Gruvbox, and Material Deep Ocean; adding a theme is just a new folder with six small color files.
+
 ## Installation
 
 No install script. Clone the repo and symlink (or copy) the directories you want into `~/.config/`:

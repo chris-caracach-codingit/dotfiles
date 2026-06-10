@@ -222,6 +222,20 @@ exec qtile start
 
 ---
 
+## Themes
+
+Themes live in `~/.config/themes/<name>/` — six color files each (qtile, alacritty, rofi, dunst, fish, tmux). The active theme is just a symlink, which the configs import from:
+
+```bash
+ln -s ~/.config/themes/nord ~/.config/themes/current
+```
+
+Switch from the rofi menu with `mod+u` (`qtile/menus/theme.sh`) — it flips the symlink and live-reloads everything. Dunst picks its colors up through the `dunst/dunstrc.d/99-theme.conf` drop-in symlink (already in the repo).
+
+To add a theme: copy an existing theme folder, change the hex values, done.
+
+---
+
 ## Quick full install (copy-paste)
 
 ```bash
@@ -248,6 +262,7 @@ nvm install v22.22.2
 1. `chsh -s /usr/bin/fish`
 2. Run `nvim` once to trigger plugin sync
 3. Symlink `tmux/tmux.conf` to `~/.tmux.conf`, clone tpm, then `prefix + I` inside tmux
-4. Run `nitrogen --restore` or pick a wallpaper
-5. `sudo systemctl enable --now NetworkManager`
-6. Reboot or `startx`
+4. `ln -s ~/.config/themes/nord ~/.config/themes/current` (or any theme)
+5. Run `nitrogen --restore` or pick a wallpaper
+6. `sudo systemctl enable --now NetworkManager`
+7. Reboot or `startx`

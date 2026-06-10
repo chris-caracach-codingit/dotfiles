@@ -20,8 +20,11 @@ fish_add_path ~/.local/bin
 # Ensure system paths are first
 set -gx PATH /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin $PATH
 
-# Nord shell colors
-set -g fish_color_normal 88c0d0
-set -g fish_color_command 81a1c1
-set -g fish_color_param eceff4
-set -g fish_color_error bf616a
+# Shell colors come from the active theme (switched via mod+u).
+# Runs at startup, and again in every open shell when the theme switcher
+# pokes the __theme_active universal variable.
+function __apply_theme --on-variable __theme_active
+    test -e ~/.config/themes/current/fish.fish
+    and source ~/.config/themes/current/fish.fish
+end
+__apply_theme
